@@ -10,10 +10,11 @@ Si le BIOS ne veut pas booter sur la clef, vérifier qu'un boot USB est bien aut
 
 Installer une Debian avec les options par défaut, et un utilisateur de départ "bob", dans /home
 (on ajoutera le "vrai" user plus tard ; bob permet de bosser tranquillement jusqu'au cryptage)
-Faire les partitions : 
-   sda1    swap     mem+10%
-   sda5    /        40G
-   sda6    /home  le reste ; ne pas a crypter, on le fait plus tard
+Faire les partitions :
+
+    sda1    swap     mem+10%
+    sda5    /        40G
+    sda6    /home  le reste ; ne pas a crypter, on le fait plus tard
 
     git clone ...
 
@@ -21,6 +22,8 @@ Faire les partitions :
     apt-get install -y  vim openssh-client openssh-server git emacs ecryptfs-utils cryptsetup apt-file synaptic manpages
 
 ATTENTION : vérifier le que /home est bien sur sda6, par ex avec:
+
+```
 fdisk -l
 cat /etc/fstab
 
@@ -37,7 +40,7 @@ mount /dev/mapper/vault /home
 /dev/mapper/vault /home         ext4    defaults        0       2
 # ** dans /etc/crypttab : 
 echo "vault             /dev/sda6        none        luks" >> /etc/crypttab
-
+```
 
 #### Crypter la swap : 
  A FAIRE 
@@ -45,6 +48,7 @@ echo "vault             /dev/sda6        none        luks" >> /etc/crypttab
 
 # Créer le compte utilisateur 
 
+```
 uidNumber=1001
 givenName=jd
 
@@ -59,13 +63,20 @@ deluser --remove-home bob
 
     sed -e "s/#.*$//" extra_packages_debian |xargs echo 
     apt-get install -y #[copier-coller tous les packages de la ligne prédécente]
+```
 
 #### Tests performances : 
+
+```
 cd /root
 hdparm -Tt /dev/sda6  # une première fois à blanc
 hdparm -Tt /dev/sda6 | tee -a PERFORMANCES.txt
 glxgears             | tee -a PERFORMANCES.txt
+```
 
+## Suite de l'install des packages
+
+```
 apt-get autoremove
 
 
@@ -85,10 +96,10 @@ apt-get install --reinstall xserver-xorg-nouveau
     apt install hplip
     bash Downloads/hplip-3.22.4.run
 
-En cas de pb, pour la reconfigurer : 
+# En cas de pb, pour la reconfigurer : 
 
     hp-setup
-
+```
 
 Pour le scanner (HP Envy 6032e), telecharger le plugin non-free associé
  https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/

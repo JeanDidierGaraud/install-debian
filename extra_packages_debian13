@@ -21,7 +21,7 @@ colormake
 # # autotools
 autoconf automake 
 # #c-cpp-reference  --> manque DEB
-cmake cmake-curses-gui
+cmake cmake-curses-gui elpa-cmake-mode
 # perl
 # rake
 # ruby
